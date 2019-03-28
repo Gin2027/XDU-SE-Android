@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <TextView
@@ -69,7 +69,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="120dp"
         android:orientation="vertical">
 
         <TextView
@@ -140,7 +140,8 @@
                     android:id="@+id/half"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.5G" />
+                    android:checked="true"
+                    android:text="500M" />
 
                 <RadioButton
                     android:id="@+id/one"
@@ -170,7 +171,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="240dp"
         android:orientation="vertical">
 
         <TextView
@@ -248,7 +249,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="0dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="160dp"
         android:orientation="vertical">
 
         <TextView

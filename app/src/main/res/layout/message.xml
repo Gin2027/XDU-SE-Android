@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入学号"/>
+
+    <EditText
+        android:id="@+id/cardpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account"
+        android:hint="请输入一卡通密码"
+        android:inputType="textPassword"/>
+    <EditText
+        android:id="@+id/netpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardpassword"
+        android:hint="请输入校园网密码"
+        android:inputType="textPassword"/>
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/netpassword"
+        android:hint="请输入接受提醒的邮箱" />
+</RelativeLayout>

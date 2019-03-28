@@ -3,4 +3,128 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="213dp"
+        android:layout_marginTop="466dp"
+        android:gravity="center"
+        android:text="查询一卡通余额" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="234dp"
+        android:layout_marginTop="297dp"
+        android:gravity="center"
+        android:text="查询成绩" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="238dp"
+        android:layout_marginTop="142dp"
+        android:gravity="center"
+        android:text="查询流量" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="73dp"
+        android:layout_marginTop="296dp"
+        android:gravity="center"
+        android:text="查询校历" />
+
+    <ImageView
+        android:id="@+id/xiaoli"
+        android:layout_width="109dp"
+        android:layout_height="90dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="188dp"
+        android:src="@drawable/xiaoli" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="74dp"
+        android:layout_marginTop="143dp"
+        android:gravity="center"
+        android:text="查询余额" />
+
+    <ImageView
+        android:id="@+id/chengji"
+        android:layout_width="116dp"
+        android:layout_height="96dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="207dp"
+        android:layout_marginTop="187dp"
+        android:src="@drawable/chengji" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="467dp"
+        android:gravity="center"
+        android:text="查询借阅图书" />
+
+    <ImageView
+        android:id="@+id/tushu"
+        android:layout_width="107dp"
+        android:layout_height="112dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="338dp"
+        android:src="@drawable/tushu" />
+
+    <ImageView
+        android:id="@+id/zhangdan"
+        android:layout_width="106dp"
+        android:layout_height="101dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="209dp"
+        android:layout_marginTop="344dp"
+        android:src="@drawable/yikatongzhangdan" />
+
+    <ImageView
+        android:id="@+id/yue"
+        android:layout_width="102dp"
+        android:layout_height="98dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/yikatongyue" />
+
+    <ImageView
+        android:id="@+id/liuliang"
+        android:layout_width="106dp"
+        android:layout_height="90dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="214dp"
+        android:layout_marginTop="46dp"
+        android:src="@drawable/liuliang" />
+
 </RelativeLayout>

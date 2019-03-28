@@ -1,14 +1,23 @@
 package com.ljx.xdreminder;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
 
 public class MainActivity extends AppCompatActivity {
+
     private BottomNavigationView bottomNavigationView;
     private remindFragment remind;
     private searchFragment search;
@@ -21,8 +30,62 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        firstRun();
         initFragment();
     }
+
+    private void firstRun() {
+        final SharedPreferences sharedPreferences = getSharedPreferences("FirstRun", 0);
+        Boolean first_run = sharedPreferences.getBoolean("First", true);
+        if (first_run) {
+            sharedPreferences.edit().putBoolean("First", false).commit();
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            View view1 = LayoutInflater.from(this).inflate(R.layout.message,null);
+            dialog.setView(view1);
+
+            final EditText accountText = view1.findViewById(R.id.account);
+            final EditText cardpasswordText = view1.findViewById(R.id.cardpassword);
+            final EditText netpasswordText = view1.findViewById(R.id.netpassword);
+            final EditText emailText = view1.findViewById(R.id.email);
+
+            dialog.setTitle("通知");
+            dialog.setMessage("您是第一次使用本APP,开启所有功能需要注册您的学号以及一卡通密码和校园网密码,您可以现在完成设置也可以在之后自行登录信息,您的信息将会得到保护.");
+            dialog.setPositiveButton("注册", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String account = accountText.getText().toString();
+                    String cardpassword = cardpasswordText.getText().toString();
+                    String netpassword = netpasswordText.getText().toString();
+                    String email = emailText.getText().toString();
+
+                    SharedPreferences sharedPreferences1 = getSharedPreferences("usr", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences1.edit();
+
+                    editor.putString("account",account);
+                    editor.putString("cardpassword",cardpassword);
+                    editor.putString("netpassword",netpassword);
+                    editor.putString("email",email);
+                    editor.commit();
+                }
+            });
+            dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    SharedPreferences sharedPreferences1 = getSharedPreferences("usr", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences1.edit();
+                    editor.putString("account","未知");
+                    editor.putString("cardpassword","NULL");
+                    editor.putString("netpassword","NULL");
+                    editor.putString("email","NULL");
+                    editor.commit();
+                }
+            });
+            dialog.show();
+        } else {
+        }
+    }
+
 
     private void initFragment() {
         remind = new remindFragment();
