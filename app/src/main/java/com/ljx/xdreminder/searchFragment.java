@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -42,6 +44,8 @@ public class searchFragment extends Fragment {
     private ImageView card_bill;
     private ImageView book;
     private ImageView grades;
+    private ImageView net;
+    private ImageView calendar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class searchFragment extends Fragment {
         card_bill = getActivity().findViewById(R.id.zhangdan);
         book = getActivity().findViewById(R.id.tushu);
         grades = getActivity().findViewById(R.id.chengji);
+        net = getActivity().findViewById(R.id.liuliang);
+        calendar = getActivity().findViewById(R.id.xiaoli);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usr", Context.MODE_PRIVATE);
         account = sharedPreferences.getString("account",null);
         cardpassword = sharedPreferences.getString("cardpassword",null);
@@ -193,17 +199,23 @@ public class searchFragment extends Fragment {
                                             @Override
                                             public void onFailure(Call call, IOException e) {
                                                 e.printStackTrace();
+                                                Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
                                             }
 
                                             @Override
                                             public void onResponse(Call call, Response response) throws IOException {
                                                 String result = response.body().string();
-                                                Intent intent = new Intent(getActivity(),billActivity.class);
-                                                Bundle bundle = new Bundle();
-                                                bundle.putString("result",result);
-                                                intent.putExtras(bundle);
-                                                startActivity(intent);
-
+                                                if (result.startsWith("指定")||result.startsWith("查询时间跨度")) {
+                                                    Looper.prepare();
+                                                    Toast.makeText(getContext(),result,Toast.LENGTH_SHORT).show();
+                                                    Looper.loop();
+                                                } else {
+                                                    Intent intent = new Intent(getActivity(), billActivity.class);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("result", result);
+                                                    intent.putExtras(bundle);
+                                                    startActivity(intent);
+                                                }
                                             }
                                         });
                                     }
@@ -215,6 +227,73 @@ public class searchFragment extends Fragment {
                                     }
                                 })
                                 .show();
+                    }
+                });
+            }
+        });
+
+        grades.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OKHttpUtils.GetSimpleMessages(account, cardpassword, "/api/grades", new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        Intent intent = new Intent(getActivity(), gradesActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("result", result);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
+
+            }
+        });
+
+        net.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OKHttpUtils.GetSimpleMessages(account, netpassword, "/api/net_balance", new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                                dialog.setTitle("剩余流量");
+                                dialog.setMessage(result);
+                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                                dialog.show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(),"功能待开发",Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -15,7 +15,7 @@ public class OKHttpUtils {
                                 .add("password",password)
                                 .build();
 
-        Request request = new Request.Builder().url("http://10.0.2.2:5000"+url).post(body).build();
+        Request request = new Request.Builder().url("http://file.xduacm.club:5000"+url).post(body).build();
         client.newCall(request).enqueue(callback);
     }
 
@@ -27,7 +27,7 @@ public class OKHttpUtils {
                                 .add("id",id)
                                 .add("password",password)
                                 .build();
-        Request request = new Request.Builder().url("http://10.0.2.2:5000/api/card_bill").post(body).build();
+        Request request = new Request.Builder().url("http://file.xduacm.club:5000/api/card_bill").post(body).build();
         client.newCall(request).enqueue(callback);
     }
 }
