@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
             final EditText accountText = view1.findViewById(R.id.account);
             final EditText cardpasswordText = view1.findViewById(R.id.cardpassword);
+            final EditText netaccountText = view1.findViewById(R.id.netaccount);
             final EditText netpasswordText = view1.findViewById(R.id.netpassword);
             final EditText emailText = view1.findViewById(R.id.email);
 
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String account = accountText.getText().toString();
                     String cardpassword = cardpasswordText.getText().toString();
+                    String netaccount = netaccountText.getText().toString();
                     String netpassword = netpasswordText.getText().toString();
                     String email = emailText.getText().toString();
 
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                     editor.putString("account",account);
                     editor.putString("cardpassword",cardpassword);
+                    editor.putString("netaccount",netaccount);
                     editor.putString("netpassword",netpassword);
                     editor.putString("email",email);
                     editor.commit();
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences1.edit();
                     editor.putString("account","未知");
                     editor.putString("cardpassword","NULL");
+                    editor.putString("netaccount","NULL");
                     editor.putString("netpassword","NULL");
                     editor.putString("email","NULL");
                     editor.commit();

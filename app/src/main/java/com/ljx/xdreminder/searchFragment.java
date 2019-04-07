@@ -38,6 +38,7 @@ import okhttp3.Response;
 public class searchFragment extends Fragment {
     private String account;
     private String cardpassword;
+    private String netaccount;
     private String netpassword;
     private String email;
     private ImageView card_balace;
@@ -45,7 +46,7 @@ public class searchFragment extends Fragment {
     private ImageView book;
     private ImageView grades;
     private ImageView net;
-    private ImageView calendar;
+    private ImageView device;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,10 +62,11 @@ public class searchFragment extends Fragment {
         book = getActivity().findViewById(R.id.tushu);
         grades = getActivity().findViewById(R.id.chengji);
         net = getActivity().findViewById(R.id.liuliang);
-        calendar = getActivity().findViewById(R.id.xiaoli);
+        device = getActivity().findViewById(R.id.shebei);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usr", Context.MODE_PRIVATE);
         account = sharedPreferences.getString("account",null);
         cardpassword = sharedPreferences.getString("cardpassword",null);
+        netaccount = sharedPreferences.getString("netaccount",null);
         netpassword = sharedPreferences.getString("netpassword",null);
         email = sharedPreferences.getString("email",null);
 
@@ -75,6 +77,9 @@ public class searchFragment extends Fragment {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         e.printStackTrace();
+                        Looper.prepare();
+                        Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
+                        Looper.loop();
                     }
 
                     @Override
@@ -106,6 +111,9 @@ public class searchFragment extends Fragment {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         e.printStackTrace();
+                        Looper.prepare();
+                        Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
+                        Looper.loop();
                     }
 
                     @Override
@@ -113,33 +121,41 @@ public class searchFragment extends Fragment {
                         List<String> books = new ArrayList<>();
 
                         String jsonObject = response.body().string();
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(jsonObject).getAsJsonArray();
-                        Gson gson = new Gson();
-                        for (JsonElement book : jsonArray) {
-                            books.add(gson.fromJson(book,String.class));
-                        }
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                View view1 = getLayoutInflater().inflate(R.layout.book_item,null);
-                                AlertDialog dialog = new AlertDialog.Builder(getContext())
-                                        .setTitle("借阅书籍")
-                                        .setView(view1)
-                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                            }
-                                        }).create();
-                                ListView listView = view1.findViewById(R.id.book_name);
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,books);
-                                listView.setAdapter(adapter);
-                                dialog.show();
+                        if (jsonObject.equals("查询失败")) {
+                            Looper.prepare();
+                            Toast.makeText(getContext(), "查询失败", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(jsonObject).getAsJsonArray();
+                            Gson gson = new Gson();
+                            for (JsonElement book : jsonArray) {
+                                books.add(gson.fromJson(book, String.class));
                             }
-                        });
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    View view1 = getLayoutInflater().inflate(R.layout.book_item, null);
+                                    AlertDialog dialog = new AlertDialog.Builder(getContext())
+                                            .setTitle("借阅书籍")
+                                            .setView(view1)
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                }
+                                            }).create();
+                                    ListView listView = view1.findViewById(R.id.book_name);
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, books);
+                                    listView.setAdapter(adapter);
+                                    dialog.show();
+                                }
+                            });
+                        }
                     }
+
                 });
             }
         });
@@ -199,7 +215,9 @@ public class searchFragment extends Fragment {
                                             @Override
                                             public void onFailure(Call call, IOException e) {
                                                 e.printStackTrace();
+                                                Looper.prepare();
                                                 Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
+                                                Looper.loop();
                                             }
 
                                             @Override
@@ -210,11 +228,17 @@ public class searchFragment extends Fragment {
                                                     Toast.makeText(getContext(),result,Toast.LENGTH_SHORT).show();
                                                     Looper.loop();
                                                 } else {
-                                                    Intent intent = new Intent(getActivity(), billActivity.class);
-                                                    Bundle bundle = new Bundle();
-                                                    bundle.putString("result", result);
-                                                    intent.putExtras(bundle);
-                                                    startActivity(intent);
+                                                    if (result.equals("查询失败")) {
+                                                        Looper.prepare();
+                                                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                                                        Looper.loop();
+                                                    } else {
+                                                        Intent intent = new Intent(getActivity(), billActivity.class);
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putString("result", result);
+                                                        intent.putExtras(bundle);
+                                                        startActivity(intent);
+                                                    }
                                                 }
                                             }
                                         });
@@ -238,17 +262,26 @@ public class searchFragment extends Fragment {
                 OKHttpUtils.GetSimpleMessages(account, cardpassword, "/api/grades", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-
+                        e.printStackTrace();
+                        Looper.prepare();
+                        Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
+                        Looper.loop();
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String result = response.body().string();
-                        Intent intent = new Intent(getActivity(), gradesActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("result", result);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        if (result.equals("查询失败")) {
+                            Looper.prepare();
+                            Toast.makeText(getContext(),result,Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else {
+                            Intent intent = new Intent(getActivity(), gradesActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("result", result);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
                     }
                 });
 
@@ -258,10 +291,13 @@ public class searchFragment extends Fragment {
         net.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OKHttpUtils.GetSimpleMessages(account, netpassword, "/api/net_balance", new Callback() {
+                OKHttpUtils.GetSimpleMessages(netaccount, netpassword, "/api/net_balance", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         e.printStackTrace();
+                        Looper.prepare();
+                        Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
+                        Looper.loop();
                     }
 
                     @Override
@@ -287,13 +323,37 @@ public class searchFragment extends Fragment {
             }
         });
 
-        calendar.setOnClickListener(new View.OnClickListener() {
+
+        device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().runOnUiThread(new Runnable() {
+
+                OKHttpUtils.GetSimpleMessages(netaccount, netpassword, "/api/online_device", new Callback() {
                     @Override
-                    public void run() {
-                        Toast.makeText(getContext(),"功能待开发",Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                        Looper.prepare();
+                        Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setTitle("在线设备信息");
+                        dialog.setMessage(response.body().string());
+                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.show();
+                            }
+                        });
                     }
                 });
             }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class settingsFragment extends Fragment {
     TextView usr_account;
     TextView usr_cardpassword;
+    TextView usr_netaccount;
     TextView usr_netpassword;
     TextView usr_email;
     Button modify;
@@ -34,6 +35,7 @@ public class settingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         usr_account = getActivity().findViewById(R.id.usr_account);
         usr_cardpassword = getActivity().findViewById(R.id.usr_cardpassword);
+        usr_netaccount = getActivity().findViewById(R.id.usr_netaccount);
         usr_netpassword = getActivity().findViewById(R.id.usr_netpassword);
         usr_email = getActivity().findViewById(R.id.usr_email);
         modify = getActivity().findViewById(R.id.usr_modify);
@@ -41,6 +43,7 @@ public class settingsFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usr", Context.MODE_PRIVATE);
         usr_account.setText("学号:"+sharedPreferences.getString("account", null));
         usr_cardpassword.setText("一卡通密码:"+sharedPreferences.getString("cardpassword",null));
+        usr_netaccount.setText("校园网账号:"+sharedPreferences.getString("netaccount",null));
         usr_netpassword.setText("校园网密码:"+sharedPreferences.getString("netpassword",null));
         usr_email.setText("邮箱:"+sharedPreferences.getString("email",null));
 
@@ -51,8 +54,14 @@ public class settingsFragment extends Fragment {
                 View view1 = LayoutInflater.from(getContext()).inflate(R.layout.message,null);
                 final EditText accountText = view1.findViewById(R.id.account);
                 final EditText cardpasswordText = view1.findViewById(R.id.cardpassword);
+                final EditText netaccountText = view1.findViewById(R.id.netaccount);
                 final EditText netpasswordText = view1.findViewById(R.id.netpassword);
                 final EditText emailText = view1.findViewById(R.id.email);
+
+                accountText.setText(sharedPreferences.getString("account", null));
+                netaccountText.setText(sharedPreferences.getString("netaccount",null));
+                emailText.setText(sharedPreferences.getString("email",null));
+
 
                 dialog.setTitle("通知");
                 dialog.setView(view1);
@@ -62,6 +71,7 @@ public class settingsFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String account = accountText.getText().toString();
                         String cardpassword = cardpasswordText.getText().toString();
+                        String netaccount = netaccountText.getText().toString();
                         String netpassword = netpasswordText.getText().toString();
                         String email = emailText.getText().toString();
 
@@ -70,6 +80,7 @@ public class settingsFragment extends Fragment {
 
                         editor.putString("account",account);
                         editor.putString("cardpassword",cardpassword);
+                        editor.putString("netaccount",netaccount);
                         editor.putString("netpassword",netpassword);
                         editor.putString("email",email);
                         editor.commit();

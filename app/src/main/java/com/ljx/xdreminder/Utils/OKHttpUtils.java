@@ -1,5 +1,7 @@
 package com.ljx.xdreminder.Utils;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -9,13 +11,15 @@ import okhttp3.RequestBody;
 public class OKHttpUtils {
     private static final String TAG = "OKHttpUtils";
     public static void GetSimpleMessages(String id,String password,String url,Callback callback){
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                                  .connectTimeout(2, TimeUnit.SECONDS)
+                                  .build();
         RequestBody body = new FormBody.Builder()
                                 .add("id",id)
                                 .add("password",password)
                                 .build();
 
-        Request request = new Request.Builder().url("http://file.xduacm.club:5000"+url).post(body).build();
+        Request request = new Request.Builder().url("http://api.ppoj.ac.cn:5000"+url).post(body).build();
         client.newCall(request).enqueue(callback);
     }
 
@@ -27,7 +31,7 @@ public class OKHttpUtils {
                                 .add("id",id)
                                 .add("password",password)
                                 .build();
-        Request request = new Request.Builder().url("http://file.xduacm.club:5000/api/card_bill").post(body).build();
+        Request request = new Request.Builder().url("http://api.ppoj.ac.cn:5000/api/card_bill").post(body).build();
         client.newCall(request).enqueue(callback);
     }
 }

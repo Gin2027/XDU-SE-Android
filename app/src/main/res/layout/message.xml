@@ -17,10 +17,16 @@
         android:hint="请输入一卡通密码"
         android:inputType="textPassword"/>
     <EditText
-        android:id="@+id/netpassword"
+        android:id="@+id/netaccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/cardpassword"
+        android:hint="请输入校园网账号(一般为学号)" />
+    <EditText
+        android:id="@+id/netpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/netaccount"
         android:hint="请输入校园网密码"
         android:inputType="textPassword"/>
     <EditText
