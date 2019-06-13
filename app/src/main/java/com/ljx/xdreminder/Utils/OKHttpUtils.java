@@ -12,7 +12,7 @@ public class OKHttpUtils {
     private static final String TAG = "OKHttpUtils";
     public static void GetSimpleMessages(String id,String password,String url,Callback callback){
         OkHttpClient client = new OkHttpClient.Builder()
-                                  .connectTimeout(2, TimeUnit.SECONDS)
+                                  .connectTimeout(5, TimeUnit.SECONDS)
                                   .build();
         RequestBody body = new FormBody.Builder()
                                 .add("id",id)

@@ -21,4 +21,5 @@ public class grades {
     public void setLessons(List<String> lessons) {
         this.lessons = lessons;
     }
+
 }

@@ -8,16 +8,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.ljx.xdreminder.Entity.grades;
+import com.ljx.xdreminder.Entity.orderedGrade;
 import com.loopeer.cardstack.CardStackView;
 
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class gradesActivity extends AppCompatActivity implements CardStackView.ItemExpendListener {
     private String result;
     private CardStackView cardStackView;
-    private List<grades> gradesList;
+    private List<orderedGrade> gradesList;
     Integer[] color = {
             R.color.holo_blue_bright,
             R.color.holo_orange_light,
@@ -38,9 +41,22 @@ public class gradesActivity extends AppCompatActivity implements CardStackView.I
         JsonParser parser = new JsonParser();
         JsonArray jsonArray = parser.parse(result).getAsJsonArray();
         Gson gson = new Gson();
+
         for (JsonElement element : jsonArray) {
-            gradesList.add(gson.fromJson(element,grades.class));
+            grades grades = gson.fromJson(element,grades.class);
+            String s = gson.fromJson(element,grades.class).getSemester();
+            byte[] bytes = s.getBytes();
+            int sum = 0;
+            for (int i = 0; i < bytes.length; i++) {
+                sum += bytes[i];
+            }
+            orderedGrade orderedGrade = new orderedGrade(grades.getSemester(),grades.getLessons(),sum);
+            gradesList.add(orderedGrade);
         }
+
+        Collections.sort(gradesList);
+
+
         init();
     }
 
@@ -59,7 +75,7 @@ public class gradesActivity extends AppCompatActivity implements CardStackView.I
         List<Integer> colorList = new LinkedList<>();
         List<String> titleList = new LinkedList<>();
         for (int i = 0; i<gradesList.size(); i++) {
-            grades g = gradesList.get(i);
+            orderedGrade g = gradesList.get(i);
             lists.add(g.getLessons());
             colorList.add(color[i]);
             titleList.add(gradesList.get(i).getSemester());

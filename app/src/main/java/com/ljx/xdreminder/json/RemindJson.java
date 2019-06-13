@@ -1,16 +1,21 @@
 package com.ljx.xdreminder.json;
 
 public class RemindJson {
-    private boolean CampusNetworkLogin = false;
-    private int way1 = 0;
-    private boolean CampusNetworkBalance = false;
-    private int way2 = 0;
-    private int NetworkLimit = 500;
-    private boolean CardBalance = false;
-    private int way3 = 0;
-    private int CardLimit = -1;
-    private boolean Book = false;
-    private int way4 = 0;
+    private boolean CampusNetworkLogin = false; //校园网登录提醒开关
+    private int way1 = 1;   //校园网登录提醒方式
+    private boolean CampusNetworkBalance = false;   //校园网流量余量提醒开关
+    private int way2 = 1;   //校园网流量余量提醒方式
+    private int NetworkLimit = 500; //校园网流量余量提醒门槛
+    private boolean CardBalance = false;    //一卡通余额提醒开关
+    private int way3 = 1;   //一卡通余额提醒方式
+    private int CardLimit = -1; //一卡通余额提醒门槛
+    private boolean Book = false;   //借阅图书归还提醒开关
+    private int way4 = 1;   //借阅图书归还提醒方式
+    private String account; //统一身份认证账号
+    private String cardpassword; //统一身份认证密码
+    private String netaccount;  //校园网账号
+    private String netpassword; //校园网密码
+    private String email;   //提醒邮箱
 
     public boolean isCampusNetworkLogin() {
         return CampusNetworkLogin;
@@ -92,6 +97,46 @@ public class RemindJson {
         this.way4 = way4;
     }
 
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getCardpassword() {
+        return cardpassword;
+    }
+
+    public void setCardpassword(String cardpassword) {
+        this.cardpassword = cardpassword;
+    }
+
+    public String getNetaccount() {
+        return netaccount;
+    }
+
+    public void setNetaccount(String netaccount) {
+        this.netaccount = netaccount;
+    }
+
+    public String getNetpassword() {
+        return netpassword;
+    }
+
+    public void setNetpassword(String netpassword) {
+        this.netpassword = netpassword;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "RemindJson{" +
@@ -105,6 +150,11 @@ public class RemindJson {
                 ", CardLimit=" + CardLimit +
                 ", Book=" + Book +
                 ", way4=" + way4 +
+                ", account='" + account + '\'' +
+                ", cardpassword='" + cardpassword + '\'' +
+                ", netaccount='" + netaccount + '\'' +
+                ", netpassword='" + netpassword + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

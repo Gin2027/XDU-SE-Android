@@ -1,7 +1,9 @@
 package com.ljx.xdreminder;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -178,6 +180,18 @@ public class remindFragment extends Fragment {
                 }
 
                 if (f) {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usr", Context.MODE_PRIVATE);
+                    String account = sharedPreferences.getString("account",null);
+                    String cardpassword = sharedPreferences.getString("cardpassword",null);
+                    String netaccount = sharedPreferences.getString("netaccount",null);
+                    String netpassword = sharedPreferences.getString("netpassword",null);
+                    String email = sharedPreferences.getString("email",null);
+                    remindJson.setAccount(account);
+                    remindJson.setCardpassword(cardpassword);
+                    remindJson.setNetaccount(netaccount);
+                    remindJson.setNetpassword(netpassword);
+                    remindJson.setEmail(email);
+
                     String jsonObject = new Gson().toJson(remindJson);
                     System.out.println(jsonObject);
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
