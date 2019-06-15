@@ -1,7 +1,10 @@
 package com.ljx.xdreminder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             final EditText emailText = view1.findViewById(R.id.email);
 
             dialog.setTitle("通知");
-            dialog.setMessage("您是第一次使用本APP,开启所有功能需要注册您的学号以及一卡通密码和校园网密码,您可以现在完成设置也可以在之后自行登录信息,您的信息将会得到保护.");
+            dialog.setMessage("您是第一次使用本APP,开启所有功能需要注册您的学号以及一卡通密码和校园网密码,您可以现在完成设置也可以在之后自行登录信息,您的信息会的到充分保护.\n注册完成后APP会自动重启开启全部功能!");
             dialog.setPositiveButton("注册", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -70,8 +73,16 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("netpassword",netpassword);
                     editor.putString("email",email);
                     editor.commit();
+
+                    Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    intent.putExtra("REBOOT","reboot");
+                    PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                    AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent);
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
             });
+
             dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -95,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
         remind = new remindFragment();
         search = new searchFragment();
         settings = new settingsFragment();
-        fragments = new Fragment[]{remind,search,settings};
+        fragments = new Fragment[]{search,remind,settings};
         lastfragment = 0;
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainview,remind).show(remind).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainview,search).show(search).commit();
         bottomNavigationView = findViewById(R.id.bnv);
         bottomNavigationView.setOnNavigationItemSelectedListener(changeFragment);
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -194,6 +195,12 @@ public class remindFragment extends Fragment {
 
                     String jsonObject = new Gson().toJson(remindJson);
                     System.out.println(jsonObject);
+
+
+                    String androidID = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                    System.out.println(androidID);
+
+
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                     dialog.setTitle("通知");
                     dialog.setMessage("成功设置提醒任务");

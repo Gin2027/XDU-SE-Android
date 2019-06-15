@@ -42,7 +42,7 @@ public class settingsFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usr", Context.MODE_PRIVATE);
         usr_account.setText("学号:"+sharedPreferences.getString("account", null));
-        usr_cardpassword.setText("一卡通密码:"+sharedPreferences.getString("cardpassword",null));
+        usr_cardpassword.setText("教务处密码:"+sharedPreferences.getString("cardpassword",null));
         usr_netaccount.setText("校园网账号:"+sharedPreferences.getString("netaccount",null));
         usr_netpassword.setText("校园网密码:"+sharedPreferences.getString("netpassword",null));
         usr_email.setText("邮箱:"+sharedPreferences.getString("email",null));

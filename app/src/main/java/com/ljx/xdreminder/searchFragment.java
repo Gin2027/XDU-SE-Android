@@ -1,6 +1,7 @@
 package com.ljx.xdreminder;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -70,12 +71,21 @@ public class searchFragment extends Fragment {
         netpassword = sharedPreferences.getString("netpassword",null);
         email = sharedPreferences.getString("email",null);
 
+        if (account == null) account = "null";
+        if (cardpassword == null) cardpassword = "null";
+        if (netaccount == null) netaccount = "null";
+        if (netpassword == null) netpassword = "null";
+        if (email == null) email = "null";
+
         card_balace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "提示", "正在查询中");
+
                 OKHttpUtils.GetSimpleMessages(account, cardpassword, "/api/card_balance", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        progressDialog.cancel();
                         e.printStackTrace();
                         Looper.prepare();
                         Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
@@ -96,6 +106,7 @@ public class searchFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                progressDialog.cancel();
                                 dialog.show();
                             }
                         });
@@ -107,9 +118,11 @@ public class searchFragment extends Fragment {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "提示", "正在查询中");
                 OKHttpUtils.GetSimpleMessages(account, cardpassword, "/api/book", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        progressDialog.cancel();
                         e.printStackTrace();
                         Looper.prepare();
                         Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
@@ -150,6 +163,7 @@ public class searchFragment extends Fragment {
                                     ListView listView = view1.findViewById(R.id.book_name);
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, books);
                                     listView.setAdapter(adapter);
+                                    progressDialog.cancel();
                                     dialog.show();
                                 }
                             });
@@ -171,6 +185,10 @@ public class searchFragment extends Fragment {
                         Button ttime = view1.findViewById(R.id.ttime);
                         TextView stimetext = view1.findViewById(R.id.stime_text);
                         TextView ttimetext = view1.findViewById(R.id.ttime_text);
+
+                        stimetext.setText("2019-4-1");
+                        ttimetext.setText("2019-5-1");
+
                         stime.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -205,15 +223,20 @@ public class searchFragment extends Fragment {
                                 });
                             }
                         });
+
+                        System.out.println(stimetext);
+
                         AlertDialog dialog = new AlertDialog.Builder(getContext())
                                 .setTitle("选择时间段:注意间隔不超过30天")
                                 .setView(view1)
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                                        ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "提示", "正在查询中");
                                         OKHttpUtils.GetCardBill(stimetext.getText().toString(), ttimetext.getText().toString(), account, cardpassword, new Callback() {
                                             @Override
                                             public void onFailure(Call call, IOException e) {
+                                                progressDialog.cancel();
                                                 e.printStackTrace();
                                                 Looper.prepare();
                                                 Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
@@ -224,11 +247,13 @@ public class searchFragment extends Fragment {
                                             public void onResponse(Call call, Response response) throws IOException {
                                                 String result = response.body().string();
                                                 if (result.startsWith("指定")||result.startsWith("查询时间跨度")) {
+                                                    progressDialog.cancel();
                                                     Looper.prepare();
                                                     Toast.makeText(getContext(),result,Toast.LENGTH_SHORT).show();
                                                     Looper.loop();
                                                 } else {
                                                     if (result.equals("查询失败")) {
+                                                        progressDialog.cancel();
                                                         Looper.prepare();
                                                         Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                                                         Looper.loop();
@@ -237,6 +262,7 @@ public class searchFragment extends Fragment {
                                                         Bundle bundle = new Bundle();
                                                         bundle.putString("result", result);
                                                         intent.putExtras(bundle);
+                                                        progressDialog.cancel();
                                                         startActivity(intent);
                                                     }
                                                 }
@@ -259,9 +285,11 @@ public class searchFragment extends Fragment {
         grades.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "提示", "正在查询中");
                 OKHttpUtils.GetSimpleMessages(account, cardpassword, "/api/grades", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        progressDialog.cancel();
                         e.printStackTrace();
                         Looper.prepare();
                         Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
@@ -272,6 +300,7 @@ public class searchFragment extends Fragment {
                     public void onResponse(Call call, Response response) throws IOException {
                         String result = response.body().string();
                         if (result.equals("查询失败")) {
+                            progressDialog.cancel();
                             Looper.prepare();
                             Toast.makeText(getContext(),result,Toast.LENGTH_SHORT).show();
                             Looper.loop();
@@ -280,6 +309,7 @@ public class searchFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putString("result", result);
                             intent.putExtras(bundle);
+                            progressDialog.cancel();
                             startActivity(intent);
                         }
                     }
@@ -291,9 +321,11 @@ public class searchFragment extends Fragment {
         net.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "提示", "正在查询中");
                 OKHttpUtils.GetSimpleMessages(netaccount, netpassword, "/api/net_balance", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        progressDialog.cancel();
                         e.printStackTrace();
                         Looper.prepare();
                         Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
@@ -315,6 +347,7 @@ public class searchFragment extends Fragment {
 
                                     }
                                 });
+                                progressDialog.cancel();
                                 dialog.show();
                             }
                         });
@@ -327,10 +360,11 @@ public class searchFragment extends Fragment {
         device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "提示", "正在查询中");
                 OKHttpUtils.GetSimpleMessages(netaccount, netpassword, "/api/online_device", new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        progressDialog.cancel();
                         e.printStackTrace();
                         Looper.prepare();
                         Toast.makeText(getContext(),"查询失败",Toast.LENGTH_SHORT).show();
@@ -341,7 +375,9 @@ public class searchFragment extends Fragment {
                     public void onResponse(Call call, Response response) throws IOException {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                         dialog.setTitle("在线设备信息");
-                        dialog.setMessage(response.body().string());
+                        if (response.body().string().equals("查询失败"))
+                            dialog.setMessage("当前没有设备在线");
+                        else dialog.setMessage(response.body().string());
                         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -351,6 +387,7 @@ public class searchFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                progressDialog.cancel();
                                 dialog.show();
                             }
                         });

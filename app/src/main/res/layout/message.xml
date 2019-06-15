@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/account"
-        android:hint="请输入一卡通密码"
+        android:hint="请输入教务处登录密码"
         android:inputType="textPassword"/>
     <EditText
         android:id="@+id/netaccount"
