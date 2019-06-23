@@ -375,9 +375,10 @@ public class searchFragment extends Fragment {
                     public void onResponse(Call call, Response response) throws IOException {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                         dialog.setTitle("在线设备信息");
-                        if (response.body().string().equals("查询失败"))
+                        String result = response.body().string();
+                        if (result.equals("查询失败"))
                             dialog.setMessage("当前没有设备在线");
-                        else dialog.setMessage(response.body().string());
+                        else dialog.setMessage(result);
                         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

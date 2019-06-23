@@ -1,6 +1,7 @@
 package com.ljx.xdreminder.json;
 
 public class RemindJson {
+    private String androidID;
     private boolean CampusNetworkLogin = false; //校园网登录提醒开关
     private int way1 = 1;   //校园网登录提醒方式
     private boolean CampusNetworkBalance = false;   //校园网流量余量提醒开关
@@ -16,6 +17,14 @@ public class RemindJson {
     private String netaccount;  //校园网账号
     private String netpassword; //校园网密码
     private String email;   //提醒邮箱
+
+    public String getAndroidID() {
+        return androidID;
+    }
+
+    public void setAndroidID(String androidID) {
+        this.androidID = androidID;
+    }
 
     public boolean isCampusNetworkLogin() {
         return CampusNetworkLogin;
@@ -140,7 +149,8 @@ public class RemindJson {
     @Override
     public String toString() {
         return "RemindJson{" +
-                "CampusNetworkLogin=" + CampusNetworkLogin +
+                "androidID='" + androidID + '\'' +
+                ", CampusNetworkLogin=" + CampusNetworkLogin +
                 ", way1=" + way1 +
                 ", CampusNetworkBalance=" + CampusNetworkBalance +
                 ", way2=" + way2 +

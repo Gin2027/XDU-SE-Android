@@ -187,18 +187,18 @@ public class remindFragment extends Fragment {
                     String netaccount = sharedPreferences.getString("netaccount",null);
                     String netpassword = sharedPreferences.getString("netpassword",null);
                     String email = sharedPreferences.getString("email",null);
+                    String androidID = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
                     remindJson.setAccount(account);
                     remindJson.setCardpassword(cardpassword);
                     remindJson.setNetaccount(netaccount);
                     remindJson.setNetpassword(netpassword);
                     remindJson.setEmail(email);
+                    remindJson.setAndroidID(androidID);
 
                     String jsonObject = new Gson().toJson(remindJson);
                     System.out.println(jsonObject);
 
-
-                    String androidID = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                    System.out.println(androidID);
 
 
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());

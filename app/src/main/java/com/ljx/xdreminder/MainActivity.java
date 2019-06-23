@@ -18,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.lwy.smartupdate.UpdateManager;
+import com.lwy.smartupdate.api.IUpdateCallback;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,13 +31,72 @@ public class MainActivity extends AppCompatActivity {
     private Fragment[] fragments;
     private int lastfragment;
 
+    private String manifestJsonUrl = "http://api.ppoj.ac.cn:8000/app/UpdateManifest.json";
+    private IUpdateCallback mCallback;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkUpdate();
+        System.out.println(BuildConfig.VERSION_CODE);
+
         firstRun();
         initFragment();
+    }
+
+    private void checkUpdate() {
+        UpdateManager.getInstance().update(this, manifestJsonUrl, null);
+    }
+
+    public void registerUpdateCallbak() {
+        mCallback = new IUpdateCallback() {
+            @Override
+            public void noNewApp() {
+
+            }
+
+            @Override
+            public void beforeUpdate() {
+
+            }
+
+            @Override
+            public void onProgress(int percent, long totalLength, int patchIndex, int patchCount) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+
+            @Override
+            public void onCancelUpdate() {
+
+            }
+
+            @Override
+            public void onBackgroundTrigger() {
+
+            }
+        };
+        UpdateManager.getInstance().register(mCallback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mCallback != null)
+            UpdateManager.getInstance().unRegister(mCallback);
+        super.onDestroy();
+
     }
 
     private void firstRun() {

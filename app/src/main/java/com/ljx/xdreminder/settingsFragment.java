@@ -23,6 +23,7 @@ public class settingsFragment extends Fragment {
     TextView usr_netpassword;
     TextView usr_email;
     Button modify;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class settingsFragment extends Fragment {
         usr_netpassword = getActivity().findViewById(R.id.usr_netpassword);
         usr_email = getActivity().findViewById(R.id.usr_email);
         modify = getActivity().findViewById(R.id.usr_modify);
+
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("usr", Context.MODE_PRIVATE);
         usr_account.setText("学号:"+sharedPreferences.getString("account", null));
@@ -97,5 +99,6 @@ public class settingsFragment extends Fragment {
                 dialog.show();
             }
         });
+
     }
 }
