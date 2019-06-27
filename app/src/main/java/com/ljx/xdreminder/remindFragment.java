@@ -22,8 +22,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.ljx.xdreminder.Utils.OKHttpUtils;
 import com.ljx.xdreminder.json.RemindJson;
 import com.suke.widget.SwitchButton;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class remindFragment extends Fragment {
     private SwitchButton netlogin;
@@ -198,8 +205,17 @@ public class remindFragment extends Fragment {
 
                     String jsonObject = new Gson().toJson(remindJson);
                     System.out.println(jsonObject);
+                    OKHttpUtils.PostRemindTask(jsonObject, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
+                        }
 
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+
+                        }
+                    });
 
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                     dialog.setTitle("通知");

@@ -10,6 +10,19 @@ import okhttp3.RequestBody;
 
 public class OKHttpUtils {
     private static final String TAG = "OKHttpUtils";
+
+    public static void PostRemindTask(String json,Callback callback){
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = new FormBody.Builder()
+                .add("json",json)
+                .build();
+
+        Request request = new Request.Builder().url("http://api.ppoj.ac.cn:5000/api/remind_task").post(body).build();
+        client.newCall(request).enqueue(callback);
+    }
+
     public static void GetSimpleMessages(String id,String password,String url,Callback callback){
         OkHttpClient client = new OkHttpClient.Builder()
                                   .connectTimeout(5, TimeUnit.SECONDS)
